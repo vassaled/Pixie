@@ -38,16 +38,13 @@
                 <div class="dropdown-item" data-panel="panel-frames"><span>Animation</span></div>
             </div>
         </div>
-        <div class="panel" id="panel-project" style="top: 400px; right: 20px; width: 220px;">
-            <div class="panel-header" id="header-project"><span>Project Info</span><span class="panel-close" onclick="closePanel('panel-project')">&times;</span></div>
-            <div class="panel-body">
-                <label>Matrix Setup</label>
-                <select id="matrix-size" style="width: 100%;">
-                    <option value="16">16 x 16</option>
-                    <option value="32" selected>32 x 32</option>
-                    <option value="64">64 x 64</option>
-                </select>
-            </div>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <label for="matrix-size" style="margin: 0; color: #9cdcfe;">MATRIX:</label>
+            <select id="matrix-size" style="padding: 2px 6px; font-size: 11px;">
+                <option value="16">16 x 16</option>
+                <option value="32" selected>32 x 32</option>
+                <option value="64">64 x 64</option>
+            </select>
         </div>
     </div>
 
