@@ -419,6 +419,54 @@
                 } catch (err) { alert("Invalid project file."); } e.target.value = '';
             }; reader.readAsText(file);
         };
+       // --- Modular theme
+        function applyTheme(theme) {
+            for (const [key, value] of Object.entries(theme)) {
+                if (key.startsWith('--')) {
+                    document.documentElement.style.setProperty(key, value);
+                }
+            }
+        }
+
+        // if theme saved
+        const savedTheme = localStorage.getItem('pixie_theme');
+        if (savedTheme) {
+            try {
+                applyTheme(JSON.parse(savedTheme));
+            } catch (e) {
+                console.error("Failed to load saved theme.");
+            }
+        }
+
+        // Theme upload
+        document.getElementById('menu-load-theme').onclick = () => {
+            document.getElementById('load-theme-file').click();
+        };
+
+        document.getElementById('load-theme-file').onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            
+            reader.onload = (event) => {
+                try {
+                    const theme = JSON.parse(event.target.result);
+                    
+                    
+                    applyTheme(theme);
+                    
+                    // saving the theme to ls
+                    localStorage.setItem('pixie_theme', JSON.stringify(theme));
+                    
+                } catch (err) {
+                    alert("Failed to parse theme file. Ensure it is valid JSON.");
+                }
+                
+                e.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        };
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key.toLowerCase() === 'z') { e.preventDefault(); commitSelection(); HistoryManager.undo(); }
             if (e.ctrlKey && e.key.toLowerCase() === 'y') { e.preventDefault(); commitSelection(); HistoryManager.redo(); }
