@@ -1,6 +1,9 @@
-# Pixie (v0.1.3)
+# Pixie (v0.1.3) - Modular theme branch
 
 Pixie is a browser-based pixel art and sprite editor.
+
+## About the branch
+This brnach is made for implementing modular theme, where custom made themes can be used.
 
 ## Features
 
