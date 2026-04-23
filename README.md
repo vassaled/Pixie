@@ -1,4 +1,4 @@
-# Pixie (v0.1.3)
+# Pixie (v0.2)
 
 Pixie is a browser-based pixel art and sprite editor.
 
@@ -29,17 +29,17 @@ Pixie is a browser-based pixel art and sprite editor.
 * Export options:
   * PNG (single frame)
   * Sprite sheet
+  * GIF
 * Project save/load (.json)
 
 ## Notes
 Pixie is under active development.
 
 ## Future Plans
-* GIF export option
 * Improved keyboard shortcuts
 * More animation features 
 
 ## Minor fix
 
-### v0.1.3
-- Changed the location of matrix-setup panel.
+### v0.2
+- Added GIF export
