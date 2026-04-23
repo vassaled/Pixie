@@ -1,4 +1,4 @@
-        // --- Window Management ---
+        // --- Main window ---
         let zIndexCounter = 100;
         
         function makeDraggable(panelId, headerId) {
@@ -53,7 +53,7 @@
             });
         });
 
-        // --- Core Editor State & Pipeline ---
+        // --- Core editor---
         const AppState = {
             size: 32, scale: 16, zoomLevel: 1, activeTool: 'pencil',
             isDrawing: false, isPlaying: false, gridVisible: false,
@@ -419,6 +419,85 @@
                 } catch (err) { alert("Invalid project file."); } e.target.value = '';
             }; reader.readAsText(file);
         };
+        // gif code (version 0.2)
+        document.getElementById('menu-export-gif').onclick = () => {
+    commitSelection();
+    if (AppState.isPlaying) togglePlay();
+
+    if (typeof GIF === 'undefined') {
+        alert("The GIF encoding library failed to load. Ensure you have an internet connection.");
+        return;
+    }
+
+   
+    const exportScale = 10; 
+    const scaledWidth = AppState.size * exportScale;
+    const scaledHeight = AppState.size * exportScale;
+
+   
+    const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: scaledWidth,
+        height: scaledHeight,
+       workerScript: 'js/gif.worker.js',
+        transparent: '0xFF00FF' 
+    });
+   
+    const temp = document.createElement('canvas');
+    temp.width = AppState.size;
+    temp.height = AppState.size;
+    const tCtx = temp.getContext('2d');
+
+   
+    const scaledCanvas = document.createElement('canvas');
+    scaledCanvas.width = scaledWidth;
+    scaledCanvas.height = scaledHeight;
+    const sCtx = scaledCanvas.getContext('2d');
+    
+   
+    sCtx.imageSmoothingEnabled = false; 
+
+    const fps = parseInt(document.getElementById('fps-input').value) || 12;
+    const delay = 1000 / fps;
+
+    AppState.frames.forEach((f) => {
+        tCtx.clearRect(0, 0, AppState.size, AppState.size);
+        
+        f.layers.forEach(l => {
+            if (!l.visible) return;
+            const lc = document.createElement('canvas');
+            lc.width = AppState.size;
+            lc.height = AppState.size;
+            lc.getContext('2d').putImageData(l.bitmap, 0, 0);
+            tCtx.globalAlpha = l.opacity;
+            tCtx.drawImage(lc, 0, 0);
+        });
+        tCtx.globalAlpha = 1.0;
+
+        
+        sCtx.fillStyle = '#FF00FF';
+        sCtx.fillRect(0, 0, scaledWidth, scaledHeight);
+        
+       
+        sCtx.drawImage(temp, 0, 0, AppState.size, AppState.size, 0, 0, scaledWidth, scaledHeight);
+
+        gif.addFrame(scaledCanvas, { copy: true, delay: delay });
+    });
+    
+    const originalStatus = document.getElementById('status-info').textContent;
+    document.getElementById('status-info').textContent = "Encoding GIF... please wait.";
+
+    gif.on('finished', function(blob) {
+        document.getElementById('status-info').textContent = originalStatus;
+        const a = document.createElement('a');
+        a.download = `animation_${AppState.frames.length}frames.gif`;
+        a.href = URL.createObjectURL(blob);
+        a.click();
+    });
+
+    gif.render();
+};
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key.toLowerCase() === 'z') { e.preventDefault(); commitSelection(); HistoryManager.undo(); }
             if (e.ctrlKey && e.key.toLowerCase() === 'y') { e.preventDefault(); commitSelection(); HistoryManager.redo(); }
