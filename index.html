@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixie - The Pixel Editor</title>
      <link rel="stylesheet" href="css/style.css">
+    <script src="js/gif.js"></script>
 </head>
 <body>
     <div class="ribbon">
@@ -20,6 +21,7 @@
             <div class="dropdown">
                 <div class="dropdown-item" id="menu-export-png"><span>Export Frame</span> <span class="shortcut">PNG</span></div>
                 <div class="dropdown-item" id="menu-export-sheet"><span>Export Sprite Sheet</span> <span class="shortcut">PNG</span></div>
+                <div class="dropdown-item" id="menu-export-gif"><span>Export Animation</span> <span class="shortcut">GIF</span></div>
             </div>
         </div>
         <div class="menu-item">Edit
@@ -38,7 +40,7 @@
                 <div class="dropdown-item" data-panel="panel-frames"><span>Animation</span></div>
             </div>
         </div>
-        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+<div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
             <label for="matrix-size" style="margin: 0; color: #9cdcfe;">MATRIX:</label>
             <select id="matrix-size" style="padding: 2px 6px; font-size: 11px;">
                 <option value="16">16 x 16</option>
@@ -145,13 +147,13 @@
             </div>
         </div>
         
-
+       
 
     </div>
 
     <div class="status-bar">
         <span id="status-coords">X: 0, Y: 0</span>
-        <span id="status-info">Version - 0.1.3</span>
+        <span id="status-info">Version - 0.2</span>
         <span id="status-repo">
         <a href="https://github.com/vassaled/pixie" target="_blank">
             GitHub Repo
